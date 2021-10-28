@@ -1,0 +1,10 @@
+const productos = [{ id: 1, nombre: "Yerba", precio: 300, imagen: "" },
+    { id: 2, nombre: "Azucar", precio: 80, imagen: "" },
+    { id: 3, nombre: "Fideos", precio: 70, imagen: "" },
+    { id: 4, nombre: "Arroz", precio: 60, imagen: "" },
+    { id: 5, nombre: "Pure", precio: 50, imagen: "" },
+    { id: 6, nombre: "Aceite", precio: 250, imagen: "" },
+    { id: 7, nombre: "Harina", precio: 90, imagen: "" },
+    { id: 8, nombre: "Lentejas", precio: 75, imagen: "" },
+    { id: 9, nombre: "Arbejas", precio: 65, imagen: "" },
+];
