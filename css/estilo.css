@@ -1,0 +1,86 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #fff;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+
+header {
+    margin-bottom: 50px;
+}
+
+h2 {
+    margin-bottom: 50px;
+}
+
+.margen {
+    margin-top: 60px;
+}
+
+
+/* NavBar */
+
+.navbar-nav {
+    justify-content: center;
+    width: 90%;
+}
+
+.bg-light {
+    background-color: rgb(108, 105, 241) !important;
+}
+
+ul li {
+    padding-left: 45px;
+}
+
+ul li a {
+    color: black !important;
+    font-weight: bold;
+}
+
+
+/* Articulos */
+
+.articulosDestacados {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 2fr 1fr;
+}
+
+
+/* Sorteo */
+
+button {
+    background-color: rgb(108, 105, 241);
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 25px;
+}
+
+
+/* Footer */
+
+.contenedor-footer {
+    background-color: rgb(87, 84, 221);
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 100px;
+    padding-top: 30px;
+}
+
+.mapa {
+    width: 476px;
+    height: 323px;
+}
+
+.texto-footer {
+    padding-top: 30px;
+    font-size: 20px;
+}
