@@ -4,9 +4,22 @@
 }
 
 body {
-    background-color: #fff;
+    background-color: rgb(54, 54, 53);
     font-family: 'Roboto', sans-serif;
     text-align: center;
+    color: white;
+}
+
+.color {
+    color: black;
+}
+
+.colorFondo {
+    background-color: rgb(146, 146, 118);
+}
+
+.letra {
+    font-weight: 700;
 }
 
 header {
@@ -18,11 +31,7 @@ h2 {
 }
 
 h3 {
-    margin-top: 70px;
-}
-
-p {
-    font-size: 24px;
+    margin-bottom: 40px;
 }
 
 .margen {
@@ -51,10 +60,20 @@ ul li a {
 }
 
 
+/* SECCION CARRITO */
+
+
 /* Articulos */
 
 .row {
     --bs-gutter-x: 0.12rem;
+}
+
+
+/* Total */
+
+.strongTotal {
+    color: #ffc107;
 }
 
 
@@ -70,11 +89,22 @@ ul li a {
 }
 
 .mapa {
-    width: 476px;
-    height: 323px;
+    width: 576px;
+    height: 423px;
 }
 
 .texto-footer {
     padding-top: 30px;
     font-size: 20px;
+}
+
+
+/* Formuario */
+
+.valido {
+    border: 2px solid green;
+}
+
+.error {
+    border: 2px solid red;
 }

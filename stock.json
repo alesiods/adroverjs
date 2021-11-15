@@ -1,0 +1,85 @@
+[{
+        "id": 1,
+        "nombre": "Yerba",
+        "precio": 300,
+        "imagen": "./imgs/yerba.jpg"
+
+    },
+    {
+        "id": 2,
+        "nombre": "Azucar",
+        "precio": 80,
+        "imagen": "./imgs/azucar.jpg"
+    },
+
+    {
+        "id": 3,
+        "nombre": "Fideos",
+        "precio": 70,
+        "imagen": "./imgs/fideos.jpg"
+    },
+
+    {
+        "id": 4,
+        "nombre": "Arroz",
+        "precio": 60,
+        "imagen": "./imgs/arroz.png"
+    },
+
+    {
+        "id": 5,
+        "nombre": "Pure",
+        "precio": 50,
+        "imagen": "./imgs/pure.jpg"
+    },
+
+    {
+        "id": 6,
+        "nombre": "Aceite",
+        "precio": 250,
+        "imagen": "./imgs/aceite.jpg"
+    },
+
+    {
+        "id": 7,
+        "nombre": "Harina",
+        "precio": 90,
+        "imagen": "./imgs/harina.jpg"
+    },
+
+    {
+        "id": 8,
+        "nombre": "Lentejas",
+        "precio": 75,
+        "imagen": "./imgs/lentejas.jpg"
+    },
+
+    {
+        "id": 9,
+        "nombre": "Arvejas",
+        "precio": 65,
+        "imagen": "./imgs/arvejas.jpg"
+    },
+
+    {
+        "id": 10,
+        "nombre": "Choclo",
+        "precio": 75,
+        "imagen": "./imgs/choclo.jpg"
+    },
+
+    {
+        "id": 11,
+        "nombre": "Sal",
+        "precio": 40,
+        "imagen": "./imgs/sal.jpg"
+    },
+
+    {
+        "id": 12,
+        "nombre": "Vinagre",
+        "precio": 65,
+        "imagen": "./imgs/vinagre.jpg"
+    }
+
+]
