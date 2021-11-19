@@ -32,34 +32,53 @@ $.get("./stock.json", (res) => {
     })
 })
 
+class productoCarrito {
+    constructor(obj) {
+        this.id = obj.id;
+        this.nombre = obj.nombre;
+        this.precio = obj.precio;
+        this.imagen = obj.imagen;
+        this.cantidad = 1;
+    }
+}
+
 //Agregado de productos al carrito y en la tabla
 
 function agregarAlCarrito(productoAgregado) {
-    carrito.push(productoAgregado);
-    console.log(carrito);
-    Swal.fire(
-        "Agregaste a tu carrito:",
-        productoAgregado.nombre,
-        "success"
-    );
-    localStorage.setItem("miCarrito", JSON.stringify(carrito));
-
-    $("#tablabody").append(`
+    let encontrado = carrito.find(prod => prod.id == productoAgregado.id);
+    if (encontrado == undefined) {
+        let productoAAgregar = new productoCarrito(productoAgregado);
+        carrito.push(productoAAgregar);
+        console.log(carrito);
+        Swal.fire(
+            "Agregaste a tu carrito:",
+            productoAgregado.nombre,
+            "success"
+        );
+        $("#tablabody").append(`
     <tr>
         <td>${productoAgregado.id}</td>
         <td>${productoAgregado.nombre}</td>
+        <td id='${productoAAgregar.id}'>${productoAAgregar.cantidad}</td>
         <td>${productoAgregado.precio}</td>
     </tr>`);
+    } else {
+        let posicion = carrito.findIndex(p => p.id == productoAgregado.id);
+        carrito[posicion].cantidad += 1;
+        $(`#${productoAgregado.id}`).html(carrito[posicion].cantidad);
+        console.log(carrito);
 
+    }
     sumarCompra();
+    localStorage.setItem("miCarrito", JSON.stringify(carrito));
 }
 
 //Sumado de total
 
 const sumarCompra = () => {
     let total = 0
-    for (const prod of carrito) {
-        total += prod.precio;
+    for (const produ of carrito) {
+        total += produ.precio;
         console.log(total);
         tot.innerText = total;
     }
@@ -70,8 +89,6 @@ const sumarCompra = () => {
 $("#totalCompra").append(`
 <span id="tot"></span>
 `);
-
-
 
 
 
