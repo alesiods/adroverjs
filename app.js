@@ -61,7 +61,7 @@ function agregarAlCarrito(productoAgregado) {
         <td>${productoAgregado.nombre}</td>
         <td id="${productoAAgregar.id}">${productoAAgregar.cantidad}</td>
         <td>${productoAgregado.precio}</td>
-        <td><button class="btn-danger tamaniobtn" onclick=eliminar(${JSON.stringify(productoAgregado.id)})>X</button></td>
+        <td><button class="btn-danger tamaniobtn">X</button></td>
     </tr>`);
     } else {
         let posicion = carrito.findIndex(p => p.id == productoAgregado.id);
@@ -86,8 +86,6 @@ const sumarCompra = () => {
 
 
 
-
-
 // Ubicacion de esa suma en el DOM
 
 $("#totalCompra").append(`
@@ -100,13 +98,7 @@ $("#totalCompra").append(`
 
 
 
-//Eliminar por articulo
 
-
-function eliminar(eliminado) {
-    localStorage.removeItem("miCarrito")
-
-}
 
 
 //FORMULARIO
