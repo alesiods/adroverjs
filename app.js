@@ -51,7 +51,7 @@ function agregarAlCarrito(productoAgregado) {
         carrito.push(productoAAgregar);
         console.log(carrito);
         Swal.fire(
-            "Agregaste a tu carrito:",
+            "Agregaste un nuevo producto a tu carrito:",
             productoAgregado.nombre,
             "success"
         );
@@ -59,37 +59,54 @@ function agregarAlCarrito(productoAgregado) {
     <tr>
         <td>${productoAgregado.id}</td>
         <td>${productoAgregado.nombre}</td>
-        <td id='${productoAAgregar.id}'>${productoAAgregar.cantidad}</td>
+        <td id="${productoAAgregar.id}">${productoAAgregar.cantidad}</td>
         <td>${productoAgregado.precio}</td>
+        <td><button class="btn-danger tamaniobtn" onclick=eliminar(${JSON.stringify(productoAgregado.id)})>X</button></td>
     </tr>`);
     } else {
         let posicion = carrito.findIndex(p => p.id == productoAgregado.id);
-        carrito[posicion].cantidad += 1;
+        let cantidad = carrito[posicion].cantidad += 1;
         $(`#${productoAgregado.id}`).html(carrito[posicion].cantidad);
         console.log(carrito);
-
     }
     sumarCompra();
     localStorage.setItem("miCarrito", JSON.stringify(carrito));
 }
 
-//Sumado de total
+//Suma de Total
 
 const sumarCompra = () => {
     let total = 0
     for (const produ of carrito) {
-        total += produ.precio;
+        total += produ.precio * produ.cantidad;
         console.log(total);
         tot.innerText = total;
     }
 };
 
+
+
+
+
 // Ubicacion de esa suma en el DOM
 
 $("#totalCompra").append(`
 <span id="tot"></span>
+<div>
+<button id="botonVaciar">Vaciar</button>
+</div>
 `);
 
+
+
+
+//Eliminar por articulo
+
+
+function eliminar(eliminado) {
+    localStorage.removeItem("miCarrito")
+
+}
 
 
 //FORMULARIO
