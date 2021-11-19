@@ -86,6 +86,7 @@ const sumarCompra = () => {
 
 
 
+
 // Ubicacion de esa suma en el DOM
 
 $("#totalCompra").append(`
@@ -94,6 +95,14 @@ $("#totalCompra").append(`
 <button id="botonVaciar">Vaciar</button>
 </div>
 `);
+
+//Vaciado de carrito
+$("#botonVaciar").on("click", function() {
+    carrito = [];
+    tot.innerText = "0";
+    localStorage.clear("miCarrito");
+});
+
 
 
 
