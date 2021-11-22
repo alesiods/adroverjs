@@ -38,8 +38,13 @@ h3 {
     margin-top: 60px;
 }
 
-.tamaniobtn {
-    width: 15%;
+.anchoFomulario {
+    width: 30%;
+    margin: 0 auto;
+}
+
+.noMostrar {
+    display: none;
 }
 
 
@@ -76,25 +81,22 @@ ul li a {
 
 /* Total */
 
+.disposicionCompra {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .strongTotal {
-    color: #ffc107;
+    color: white;
 }
 
 
 /* Footer */
 
-.contenedor-footer {
+.caracteristicasFooter {
     background-color: #ffc107;
     color: black;
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 100px;
-    padding-top: 30px;
-}
-
-.mapa {
-    width: 576px;
-    height: 423px;
+    margin-top: 50px;
 }
 
 .texto-footer {

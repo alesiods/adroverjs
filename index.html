@@ -55,7 +55,7 @@
                 </div>
                 <!-- aqui van los productos -->
             </div>
-            <div class="container-xl margen">
+            <div class="container margen">
                 <h3>Tus productos</h3>
                 <table class="table table-dark table-striped">
                     <thead>
@@ -73,50 +73,51 @@
                 </table>
             </div>
             <div id="totalCompra">
-                <strong class="strongTotal">MI COMPRA</strong>
+                <!-- Aqui va total de la compra, botones de vaciado y de finalizar compra -->
             </div>
-        </section>
-
-        <section>
-            <h2 class="margen" id="sorteo">SORTEO MENSUAL!!</h2>
-            <p>Con tu compra participas de este increible sorteo</p>
-            <button id="btnSorteo" class="btn btn-warning">Ver mas</button>
+            <div class="container noMostrar" id="formularioDatos">
+                <form id="formulario" class="anchoFomulario">
+                    <div class="mt-5 mb-3 ">
+                        <label for="nombre">Nombre</label>
+                        <input id="nombre" type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono">Telefono</label>
+                        <input id="telefono" type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email">E-mail</label>
+                        <input id="email" type="email" class="form-control">
+                        <div id="emailHelp" class="form-text">Por favor cargue sus datos para poder finalizar su compra</div>
+                    </div>
+                    <input type="submit" id="btnGuardarCliente" class="btn btn-dark" value="Enviar">
+                </form>
+            </div>
         </section>
     </main>
 
 
-    <footer id="contacto">
-        <div class="contenedor-footer">
-            <div>
-                <div>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3397.0344943218743!2d-60.69882198521397!3d-31.63290591392272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95b5a9eacab7dc91%3A0x9c288e34816e5ea6!2sLuciano%20Molinas%202110%2C%20S3002%20Santa%20Fe!5e0!3m2!1ses!2sar!4v1634230220662!5m2!1ses!2sar"
-                        width="400" height="450" style="border:0;" allowfullscreen="" loading="lazy" class="mapa"></iframe>
-                </div>
+    <footer id="contacto" class="container caracteristicasFooter">
+        <div class="row">
+            <div class="col-6 mt-5">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3397.0344943218743!2d-60.69882198521397!3d-31.63290591392272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95b5a9eacab7dc91%3A0x9c288e34816e5ea6!2sLuciano%20Molinas%202110%2C%20S3002%20Santa%20Fe!5e0!3m2!1ses!2sar!4v1634230220662!5m2!1ses!2sar"
+                    width="500" height="450" style="border:0;" allowfullscreen="" loading="lazy" class="mapa"></iframe>
             </div>
-            <div>
-                <h2>Estemos en contacto</h2>
+            <div class="col-6 mt-5">
                 <div>
-                    <form id="formulario">
-                        <div class="mb-3">
-                            <label for="nombre">Nombre</label>
-                            <input id="nombre" type="text" class="form-control">
+                    <div>
+                        <h2>Estemos en contacto</h2>
+                        <p>Empezá a conocer todas las ofertas semanales</p>
+                        <button id="btnSuscrip" class="btn btn-dark">Suscribirse</button>
+                        <div id="suscrip">
+
                         </div>
-                        <div class="mb-3">
-                            <label for="telefono">Telefono</label>
-                            <input id="telefono" type="text" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email">E-mail</label>
-                            <input id="email" type="email" class="form-control">
-                            <div id="emailHelp" class="form-text">Nunca compartiremos tus datos con nadie mas.</div>
-                        </div>
-                        <input type="submit" id="btnGuardarCliente" class="btn btn-dark" value="Enviar">
-                    </form>
-                </div>
-                <div class="texto-footer">
-                    <p>aym@gmail.com</p>
-                    <p>Tel: 342-5331414</p>
-                    <p>Luciano Molinas 2110 - Santa Fe</p>
+                    </div>
+                    <div class="texto-footer">
+                        <p>aym@gmail.com</p>
+                        <p>Tel: 342-5331414</p>
+                        <p>Luciano Molinas 2110 - Santa Fe</p>
+                    </div>
                 </div>
             </div>
         </div>

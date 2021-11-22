@@ -56,13 +56,14 @@ function agregarAlCarrito(productoAgregado) {
             "success"
         );
         $("#tablabody").append(`
-    <tr>
+    <tr class="tr">
         <td>${productoAgregado.id}</td>
         <td>${productoAgregado.nombre}</td>
         <td id="${productoAAgregar.id}">${productoAAgregar.cantidad}</td>
         <td>${productoAgregado.precio}</td>
-        <td><button class="btn-danger tamaniobtn">X</button></td>
+        <td><button class=" btn btn-danger  btnDelete">X</button></td>
     </tr>`);
+        addEvent_borrar()
     } else {
         let posicion = carrito.findIndex(p => p.id == productoAgregado.id);
         let cantidad = carrito[posicion].cantidad += 1;
@@ -85,14 +86,20 @@ const sumarCompra = () => {
 };
 
 
-
-
 // Ubicacion de esa suma en el DOM
 
 $("#totalCompra").append(`
-<span id="tot"></span>
+<div class="disposicionCompra">
+    <div>
+        <strong class="strongTotal">MI COMPRA $</strong>
+        <span id="tot"></span>
+    </div>
+    <div>
+        <button id="botonVaciar" class=" btn btn-danger">Vaciar Carrito</button>
+    </div>
+</div>
 <div>
-<button id="botonVaciar">Vaciar</button>
+    <button class="btn btn-success" id="finalizarCompra">Finalizar Compra</button>
 </div>
 `);
 
@@ -100,11 +107,25 @@ $("#totalCompra").append(`
 $("#botonVaciar").on("click", function() {
     carrito = [];
     tot.innerText = "0";
+    let total = 0
+    $(".tr").remove();
     localStorage.clear("miCarrito");
+    console.log(total)
 });
 
+// AÑADIR EVENTO BORRAR
+//Falta restar en total y en localstorage
+function addEvent_borrar() {
+    let btnDelete = document.querySelectorAll('.btnDelete');
+    console.log(btnDelete);
+    btnDelete.forEach(element => {
+        element.addEventListener('click', borraLinea)
 
-
+        function borraLinea() {
+            element.parentNode.parentNode.remove();
+        }
+    });
+}
 
 
 
@@ -173,13 +194,42 @@ const formulario = document.getElementById("formulario")
 formulario.addEventListener("submit", (event) => {
     event.preventDefault()
 
-    const validaciones = prompt("Son datos son correctos?")
+    const validaciones = prompt("Sus datos son correctos?")
 
     if (validaciones == "si") {
 
         formulario.submit()
     }
 })
+
+
+
+
+//NEWSLETTER
+
+$("#btnSuscrip").click(function() {
+    suscribir();
+});
+
+
+function suscribir() {
+    $("#suscrip").append(`
+    <form id="miNew">
+    <input type="email" id="mail" placeholder="Aqui tu E-mail">
+    <button type="submit" class="btn btn-dark">Subribirse ahora</button>
+    </form>`);
+    //Evento Submit
+
+    $("#miNew").submit(function(e) {
+        e.preventDefault();
+        Swal.fire(
+            "Bienvenido, recibiras semanalmente nuestras ofertas a",
+            $("#mail").val(),
+            "success"
+        )
+        $("#miNew").empty();
+    })
+}
 
 
 
@@ -195,4 +245,9 @@ $("#scroll").click(function() {
     $("html").animate({
         scrollTop: $("#productos").offset().top
     }, 1000);
+})
+
+
+$("#finalizarCompra").click(function() {
+    $("#formularioDatos").fadeIn()
 })
