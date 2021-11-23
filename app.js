@@ -32,6 +32,7 @@ $.get("./stock.json", (res) => {
     })
 })
 
+//se crea un objeto para que me tome las cantidades
 class productoCarrito {
     constructor(obj) {
         this.id = obj.id;
@@ -42,7 +43,7 @@ class productoCarrito {
     }
 }
 
-//Agregado de productos al carrito y en la tabla
+//Agregado de productos al carrito y en la tabla(dom)
 
 function agregarAlCarrito(productoAgregado) {
     let encontrado = carrito.find(prod => prod.id == productoAgregado.id);
@@ -61,7 +62,7 @@ function agregarAlCarrito(productoAgregado) {
         <td>${productoAgregado.nombre}</td>
         <td id="${productoAAgregar.id}">${productoAAgregar.cantidad}</td>
         <td>${productoAgregado.precio}</td>
-        <td><button class=" btn btn-danger  btnDelete">X</button></td>
+        <td><button class=" btn btn-danger btnDelete">X</button></td>
     </tr>`);
         addEvent_borrar()
     } else {
@@ -71,6 +72,7 @@ function agregarAlCarrito(productoAgregado) {
         console.log(carrito);
     }
     sumarCompra();
+    $("#finalizarCompra").fadeIn(1000);
     localStorage.setItem("miCarrito", JSON.stringify(carrito));
 }
 
@@ -82,11 +84,12 @@ const sumarCompra = () => {
         total += produ.precio * produ.cantidad;
         console.log(total);
         tot.innerText = total;
+        localStorage.setItem("total", total);
     }
 };
 
 
-// Ubicacion de esa suma en el DOM
+// Ubicacion de la suma, botones(vaciar y finalizar) en el DOM
 
 $("#totalCompra").append(`
 <div class="disposicionCompra">
@@ -95,11 +98,11 @@ $("#totalCompra").append(`
         <span id="tot"></span>
     </div>
     <div>
-        <button id="botonVaciar" class=" btn btn-danger">Vaciar Carrito</button>
+        <button id="botonVaciar" class="btn btn-danger mb-5">Vaciar Carrito</button>
     </div>
 </div>
 <div>
-    <button class="btn btn-success" id="finalizarCompra">Finalizar Compra</button>
+    <button class="btn btn-success noMostrar mb-4" id="finalizarCompra">Finalizar Compra</button>
 </div>
 `);
 
@@ -110,10 +113,11 @@ $("#botonVaciar").on("click", function() {
     let total = 0
     $(".tr").remove();
     localStorage.clear("miCarrito");
+    $("#finalizarCompra").fadeOut(1000);
     console.log(total)
 });
 
-// AÑADIR EVENTO BORRAR
+// Eliminado de articulos especificos con la X de la tabla
 //Falta restar en total y en localstorage
 function addEvent_borrar() {
     let btnDelete = document.querySelectorAll('.btnDelete');
@@ -128,21 +132,18 @@ function addEvent_borrar() {
 }
 
 
-
-
-
-//FORMULARIO
+//FORMULARIO DE FINALIZAR COMPRA
 
 //Inputs
 
-const inputNombre = document.getElementById("nombre")
+let inputNombre = document.getElementById("nombre")
 
-const inputEmail = document.getElementById("email")
+let inputEmail = document.getElementById("email")
 
-const inputTelefono = document.getElementById("telefono")
+let inputTelefono = document.getElementById("telefono")
 
 inputNombre.addEventListener("change", () => {
-    const valorNombre = inputNombre.value
+    let valorNombre = inputNombre.value
     console.log(valorNombre)
 
     if (valorNombre.length <= 3) {
@@ -157,7 +158,7 @@ inputNombre.addEventListener("change", () => {
 })
 
 inputTelefono.addEventListener("change", () => {
-    const valorTelefono = inputTelefono.value
+    let valorTelefono = inputTelefono.value
     console.log(valorTelefono)
 
     if (isNaN(valorTelefono)) {
@@ -172,7 +173,7 @@ inputTelefono.addEventListener("change", () => {
 })
 
 inputEmail.addEventListener("change", () => {
-    const valorMail = inputEmail.value
+    let valorMail = inputEmail.value
     console.log(valorMail)
 
     if (valorMail.length <= 3) {
@@ -186,26 +187,41 @@ inputEmail.addEventListener("change", () => {
 
 })
 
-
 //submit
 
 const formulario = document.getElementById("formulario")
 
 formulario.addEventListener("submit", (event) => {
     event.preventDefault()
-
-    const validaciones = prompt("Sus datos son correctos?")
-
-    if (validaciones == "si") {
-
-        formulario.submit()
-    }
+    Swal.fire({
+        title: 'Sus datos son los correctos?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, avanzar!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Pedido Confirmado!',
+                'Sus datos acaban de ser enviados',
+                'success'
+            )
+            let datoNombre = inputNombre.value
+            let datoTelefono = inputTelefono.value
+            let datoMail = inputEmail.value
+            formulario.submit()
+            localStorage.setItem("nombreUsuario", datoNombre);
+            localStorage.setItem("telefonoUsuario", datoTelefono);
+            localStorage.setItem("mailUsuario", datoMail);
+        }
+    })
 })
 
 
 
 
-//NEWSLETTER
+//NEWSLETTER EN INICIO
 
 $("#btnSuscrip").click(function() {
     suscribir();
@@ -214,16 +230,16 @@ $("#btnSuscrip").click(function() {
 
 function suscribir() {
     $("#suscrip").append(`
-    <form id="miNew">
+    <form class="mt-4" id="miNew">
     <input type="email" id="mail" placeholder="Aqui tu E-mail">
-    <button type="submit" class="btn btn-dark">Subribirse ahora</button>
+    <button type="submit" class="btn btn-dark">Suscribirse ahora</button>
     </form>`);
-    //Evento Submit
 
+    //Evento Submit
     $("#miNew").submit(function(e) {
         e.preventDefault();
         Swal.fire(
-            "Bienvenido, recibiras semanalmente nuestras ofertas a",
+            "Bienvenido!! recibiras semanalmente nuestras ofertas a",
             $("#mail").val(),
             "success"
         )
@@ -232,22 +248,28 @@ function suscribir() {
 }
 
 
+//NEWSLETTER EN EMPRESA
 
-//ANIMACION
-
-$("#scroll").click(function() {
-    $("html").animate({
-        scrollTop: $("#contacto").offset().top
-    }, 1000);
-})
-
-$("#scroll").click(function() {
-    $("html").animate({
-        scrollTop: $("#productos").offset().top
-    }, 1000);
-})
+$("#btnSuscrip2").click(function() {
+    suscribir2();
+});
 
 
-$("#finalizarCompra").click(function() {
-    $("#formularioDatos").fadeIn()
-})
+function suscribir2() {
+    $("#suscrip2").append(`
+    <form id="miNew2">
+    <input type="email" id="mail2" placeholder="Aqui tu E-mail">
+    <button type="submit" class="btn btn-dark">Subribirse ahora</button>
+    </form>`);
+    //Evento Submit
+
+    $("#miNew2").submit(function(e) {
+        e.preventDefault();
+        Swal.fire(
+            "Bienvenido!! recibiras semanalmente nuestras ofertas a",
+            $("#mail2").val(),
+            "success"
+        )
+        $("#miNew2").empty();
+    })
+}
