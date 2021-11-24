@@ -3,6 +3,18 @@ let titulo = document.getElementById("principal");
 titulo.style.color = "#ffc107";
 titulo.style.fontSize = "70px";
 
+//si el local storage está vacio asigna ventas[], sino vuelca LS en arrayVentas[]
+function verificaLS() {
+    if (localStorage.getItem("miCarrito") === null) {
+        arrayVentas = [];
+    } else {
+        arrayVentas = JSON.parse(localStorage.getItem('miCarrito'));
+    }
+}
+document.onreadystatechange = () => {
+    verificaLS()
+
+}
 
 
 //CARRITO REALIZADO CON JQUERY
@@ -227,12 +239,12 @@ $("#miCategoria").change(function() {
 function ordenar() {
     let seleccion = $("#miCategoria").val();
     if (seleccion == "menor") {
-        carrito.sort(function(a, b) { return a.precio - b.precio });
+        producto.sort(function(a, b) { return a.precio - b.precio });
         console.log(seleccion)
     } else if (seleccion == "mayor") {
-        carrito.sort(function(a, b) { return b.precio - a.precio });
+        producto.sort(function(a, b) { return b.precio - a.precio });
     } else if (seleccion == "alfabetico") {
-        carrito.sort(function(a, b) {
+        producto.sort(function(a, b) {
             return a.nombre.localeCompare(b.nombre)
         });
     }
@@ -266,6 +278,7 @@ function suscribir() {
             $("#mail").val(),
             "success"
         )
+        localStorage.setItem("NewsLetter", $("#mail").val());
         $("#miNew").empty();
     })
 }
@@ -278,7 +291,7 @@ $("#btnSuscrip2").click(function() {
 });
 
 
-function suscribir2() {
+function suscribirr() {
     $("#suscrip2").append(`
     <form id="miNew2">
     <input type="email" id="mail2" placeholder="Aqui tu E-mail">
