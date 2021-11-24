@@ -218,6 +218,29 @@ formulario.addEventListener("submit", (event) => {
     })
 })
 
+//CATEGORIAS para resolver
+
+$("#miCategoria").change(function() {
+    ordenar();
+})
+
+function ordenar() {
+    let seleccion = $("#miCategoria").val();
+    if (seleccion == "menor") {
+        carrito.sort(function(a, b) { return a.precio - b.precio });
+        console.log(seleccion)
+    } else if (seleccion == "mayor") {
+        carrito.sort(function(a, b) { return b.precio - a.precio });
+    } else if (seleccion == "alfabetico") {
+        carrito.sort(function(a, b) {
+            return a.nombre.localeCompare(b.nombre)
+        });
+    }
+
+}
+
+
+
 
 
 
