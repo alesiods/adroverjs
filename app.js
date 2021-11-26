@@ -3,31 +3,19 @@ let titulo = document.getElementById("principal");
 titulo.style.color = "#ffc107";
 titulo.style.fontSize = "70px";
 
-//si el local storage está vacio asigna ventas[], sino vuelca LS en arrayVentas[]
-function verificaLS() {
-    if (localStorage.getItem("miCarrito") === null) {
-        arrayVentas = [];
-    } else {
-        arrayVentas = JSON.parse(localStorage.getItem('miCarrito'));
-    }
-}
-document.onreadystatechange = () => {
-    verificaLS()
-
-}
-
+///////////////////////////////////////////////////////////////////////////////////
 
 //CARRITO REALIZADO CON JQUERY
 let carrito = [];
 
-//Toma de productos de stock.json, y creacion y acomodado de las card
+//Toma de productos de stock.json, y renderizado de las card
 
 $.get("./stock.json", (res) => {
     console.log(res)
 
     res.forEach((producto) => {
         $("#mercaderia").append(`
-        <div class="col-xl-3 col-sm-6">
+        <div class="col-xl-3 col-6">
             <div class="card margen">
             <img src="${producto.imagen}" class="card-img-top"></img>
                 <div class="card-body color colorFondo">
@@ -55,7 +43,7 @@ class productoCarrito {
     }
 }
 
-//Agregado de productos al carrito y en la tabla(dom)
+//Agregado de productos al carrito y en la tabla(dom).
 
 function agregarAlCarrito(productoAgregado) {
     let encontrado = carrito.find(prod => prod.id == productoAgregado.id);
@@ -83,20 +71,27 @@ function agregarAlCarrito(productoAgregado) {
         $(`#${productoAgregado.id}`).html(carrito[posicion].cantidad);
         console.log(carrito);
     }
+    // lo agrega al LocalStorage, suma total y animacion para que aparezca el boton "finalizar compra"
+    localStorage.setItem("miCarrito", JSON.stringify(carrito));
     sumarCompra();
     $("#finalizarCompra").fadeIn(1000);
-    localStorage.setItem("miCarrito", JSON.stringify(carrito));
 }
 
 //Suma de Total
 
 const sumarCompra = () => {
     let total = 0
-    for (const produ of carrito) {
-        total += produ.precio * produ.cantidad;
-        console.log(total);
-        tot.innerText = total;
-        localStorage.setItem("total", total);
+    let carritoLocal = JSON.parse(localStorage.getItem("miCarrito"));
+    if (carritoLocal.length > 0) {
+        for (const produ of carrito) {
+            total += produ.precio * produ.cantidad;
+            console.log(total);
+            tot.innerText = total;
+            localStorage.setItem("total", total);
+        }
+    } else {
+        tot.innerText = 0;
+        localStorage.setItem("total", 0);
     }
 };
 
@@ -118,7 +113,7 @@ $("#totalCompra").append(`
 </div>
 `);
 
-//Vaciado de carrito
+//Vaciado de carrito, eliminacion del LS y animacion para eliminado de boton "finalizar compra"
 $("#botonVaciar").on("click", function() {
     carrito = [];
     tot.innerText = "0";
@@ -129,8 +124,7 @@ $("#botonVaciar").on("click", function() {
     console.log(total)
 });
 
-// Eliminado de articulos especificos con la X de la tabla
-//Falta restar en total y en localstorage
+// Eliminado de articulos especificos con la X de la tabla y del LocalStorage
 function addEvent_borrar() {
     let btnDelete = document.querySelectorAll('.btnDelete');
     console.log(btnDelete);
@@ -139,9 +133,25 @@ function addEvent_borrar() {
 
         function borraLinea() {
             element.parentNode.parentNode.remove();
+            for (const item of carrito) {
+                if (
+                    element.closest("td").previousElementSibling
+                    .previousElementSibling.previousElementSibling
+                    .textContent == item.nombre
+                ) {
+                    let indice = carrito.indexOf(item);
+                    carrito.splice(indice, 1);
+                    localStorage.setItem("miCarrito", JSON.stringify(carrito));
+                    //resta del total
+                    sumarCompra();
+                }
+            }
         }
     });
 }
+
+
+//////////////////////////////////////////////////////////////////////////////
 
 
 //FORMULARIO DE FINALIZAR COMPRA
@@ -230,31 +240,94 @@ formulario.addEventListener("submit", (event) => {
     })
 })
 
-//CATEGORIAS para resolver
 
+
+/////////////////////////////////////////////////////////////////////////
+
+//CATEGORIAS 
 $("#miCategoria").change(function() {
     ordenar();
 })
 
+//Ordenado por: menor precio, mayor precio y alfabetico (cada uno con su renderizado)
 function ordenar() {
-    let seleccion = $("#miCategoria").val();
-    if (seleccion == "menor") {
-        producto.sort(function(a, b) { return a.precio - b.precio });
-        console.log(seleccion)
-    } else if (seleccion == "mayor") {
-        producto.sort(function(a, b) { return b.precio - a.precio });
-    } else if (seleccion == "alfabetico") {
-        producto.sort(function(a, b) {
-            return a.nombre.localeCompare(b.nombre)
-        });
-    }
-
+    $.get("./stock.json", (res) => {
+        let mercaderia = document.getElementById("mercaderia");
+        let seleccion = $("#miCategoria").val();
+        if (seleccion == "menor") {
+            res.sort(function(a, b) {
+                return a.precio - b.precio;
+            });
+            mercaderia.innerHTML = "";
+            res.forEach((producto) => {
+                $("#mercaderia").append(`
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card margen">
+                    <img src="${producto.imagen}" class="card-img-top"></img>
+                        <div class="card-body color colorFondo">
+                            <h4 class="letra"> Tipo: ${producto.nombre} </h4> 
+                            <p> Precio: $ ${producto.precio} </p> 
+                         <button class="btn btn-warning" id="btn${producto.id}"> Comprar </button> 
+                        </div>
+                    </div>
+                </div>
+            `);
+                $(`#btn${producto.id}`).on("click", function() {
+                    agregarAlCarrito(producto);
+                });
+            });
+        } else if (seleccion == "mayor") {
+            res.sort(function(a, b) {
+                return b.precio - a.precio;
+            });
+            mercaderia.innerHTML = "";
+            res.forEach((producto) => {
+                $("#mercaderia").append(`
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card margen">
+                    <img src="${producto.imagen}" class="card-img-top"></img>
+                        <div class="card-body color colorFondo">
+                            <h4 class="letra"> Tipo: ${producto.nombre} </h4> 
+                            <p> Precio: $ ${producto.precio} </p> 
+                         <button class="btn btn-warning" id="btn${producto.id}"> Comprar </button> 
+                        </div>
+                    </div>
+                </div>
+            `);
+                $(`#btn${producto.id}`).on("click", function() {
+                    agregarAlCarrito(producto);
+                });
+            });
+        } else if (seleccion == "alfabetico") {
+            res.sort(function(a, b) {
+                return a.nombre.localeCompare(b.nombre);
+            });
+            mercaderia.innerHTML = "";
+            res.forEach((producto) => {
+                $("#mercaderia").append(`
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card margen">
+                    <img src="${producto.imagen}" class="card-img-top"></img>
+                        <div class="card-body color colorFondo">
+                            <h4 class="letra"> Tipo: ${producto.nombre} </h4> 
+                            <p> Precio: $ ${producto.precio} </p> 
+                         <button class="btn btn-warning" id="btn${producto.id}"> Comprar </button> 
+                        </div>
+                    </div>
+                </div>
+            `);
+                $(`#btn${producto.id}`).on("click", function() {
+                    agregarAlCarrito(producto);
+                });
+            });
+        }
+    });
 }
 
 
 
 
-
+/////////////////////////////////////////////////////////////////////////////////
 
 //NEWSLETTER EN INICIO
 
@@ -284,28 +357,29 @@ function suscribir() {
 }
 
 
-//NEWSLETTER EN EMPRESA
+//NEWSLETTER EN PAGINA "EMPRESA"
 
-$("#btnSuscrip2").click(function() {
-    suscribir2();
+$("#btnSuscripc").click(function() {
+    suscrib();
 });
 
 
-function suscribirr() {
-    $("#suscrip2").append(`
-    <form id="miNew2">
-    <input type="email" id="mail2" placeholder="Aqui tu E-mail">
+function suscrib() {
+    $("#suscripc").append(`
+    <form id="miNews">
+    <input type="email" id="maill" placeholder="Aqui tu E-mail">
     <button type="submit" class="btn btn-dark">Subribirse ahora</button>
     </form>`);
+
     //Evento Submit
 
-    $("#miNew2").submit(function(e) {
+    $("#miNews").submit(function(e) {
         e.preventDefault();
         Swal.fire(
             "Bienvenido!! recibiras semanalmente nuestras ofertas a",
-            $("#mail2").val(),
+            $("#maill").val(),
             "success"
         )
-        $("#miNew2").empty();
+        $("#miNews").empty();
     })
 }

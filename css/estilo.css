@@ -3,6 +3,9 @@
     padding: 0;
 }
 
+
+/* Generales */
+
 body {
     background-color: rgb(54, 54, 53);
     font-family: 'Prompt', sans-serif;
@@ -119,4 +122,24 @@ ul li a {
 .texto-footer {
     padding-top: 30px;
     font-size: 20px;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width: 600px) {
+    h2 {
+        font-size: 20px;
+    }
+    h3 {
+        font-size: 18px;
+    }
+    p {
+        font-size: 15px;
+    }
+    /* footer */
+    .mapa {
+        width: 180px;
+        height: 200px;
+    }
 }
